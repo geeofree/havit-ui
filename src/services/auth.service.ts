@@ -11,7 +11,7 @@ type UserData = {
 export class AuthService {
   static async signIn(email: string, password: string) {
     try {
-      const response = HttpService.post("/api/auth/sign-in", {
+      const response = HttpService.post("api/auth/sign-in", {
         json: { email, password },
       });
       const data = await response.json();
@@ -23,7 +23,7 @@ export class AuthService {
 
   static async signUp(userData: UserData) {
     try {
-      const response = HttpService.post("/api/auth/sign-up", {
+      const response = HttpService.post("api/auth/sign-up", {
         json: {
           ...userData,
           username: null,
