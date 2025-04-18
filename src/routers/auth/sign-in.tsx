@@ -2,17 +2,22 @@ import { Fragment } from "react";
 import { Text } from "@chakra-ui/react";
 import { ActionFunction, Link, redirect, useNavigation } from "react-router";
 import { Main, SignInForm } from "./components";
+import { AuthService } from "@/services/auth.service";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const email = formData.get("email");
-  const password = formData.get("password");
-
-  if (email === password) {
-    return redirect("/dashboard");
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  try {
+    if (email && password) {
+      await AuthService.signIn(email, password);
+      return redirect("/dashboard");
+    } else {
+      return null;
+    }
+  } catch (error: unknown) {
+    return null;
   }
-
-  return null;
 };
 
 export function SignIn() {
