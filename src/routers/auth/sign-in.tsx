@@ -8,14 +8,12 @@ export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
-  try {
-    if (email && password) {
-      await AuthService.signIn(email, password);
-      return redirect("/dashboard");
-    } else {
-      return null;
-    }
-  } catch (error: unknown) {
+
+  const data = await AuthService.signIn(email, password);
+
+  if (data) {
+    return redirect("/dashboard");
+  } else {
     return null;
   }
 };

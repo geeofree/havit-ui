@@ -1,3 +1,5 @@
+import { HttpService } from "./http.service";
+
 type UserData = {
   first_name: string;
   last_name: string;
@@ -8,41 +10,29 @@ type UserData = {
 
 export class AuthService {
   static async signIn(email: string, password: string) {
-    const response = await fetch("/api/auth/sign-in", {
-      method: "POST",
-      body: JSON.stringify({ email, password }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        `Something went wrong while trying to sign-in. [${response.status}: ${response.statusText}]`,
-      );
+    try {
+      const response = HttpService.post("/api/auth/sign-in", {
+        json: { email, password },
+      });
+      const data = await response.json();
+      return data;
+    } catch (error: unknown) {
+      return null;
     }
-
-    return response.json();
   }
 
-  static async signUp(data: UserData) {
-    const response = await fetch("/api/auth/sign-up", {
-      method: "POST",
-      body: JSON.stringify({
-        ...data,
-        username: null,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-
-    if (!response.ok) {
-      throw new Error(
-        `Something went wrong while trying to sign-in. [${response.status}: ${response.statusText}]`,
-      );
+  static async signUp(userData: UserData) {
+    try {
+      const response = HttpService.post("/api/auth/sign-up", {
+        json: {
+          ...userData,
+          username: null,
+        },
+      });
+      const data = await response.json();
+      return data;
+    } catch (error: unknown) {
+      return null;
     }
-
-    return response.json();
   }
 }
