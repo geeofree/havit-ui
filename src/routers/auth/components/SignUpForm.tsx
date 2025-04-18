@@ -1,5 +1,7 @@
+import { ErrorMessage } from "@/components";
+import { ErrorDetails } from "@/types/response";
 import { Field, Button, Flex, Input } from "@chakra-ui/react";
-import { Form } from "react-router";
+import { Form, useActionData } from "react-router";
 
 type SignUpFormProps = {
   isSubmitting?: boolean;
@@ -7,6 +9,7 @@ type SignUpFormProps = {
 
 export function SignUpForm(props: SignUpFormProps) {
   const { isSubmitting } = props;
+  const errorDetails = useActionData<ErrorDetails>();
   return (
     <Form action="/auth/sign-up" method="post">
       <Flex gap="4" flexDirection="column" minWidth="sm">
@@ -44,6 +47,8 @@ export function SignUpForm(props: SignUpFormProps) {
           </Field.Label>
           <Input type="password" name="password" placeholder="Password" />
         </Field.Root>
+
+        {errorDetails ? <ErrorMessage {...errorDetails} /> : null}
 
         <Button type="submit" loading={isSubmitting} disabled={isSubmitting}>
           {isSubmitting ? "Signing-Up..." : "Sign-Up"}

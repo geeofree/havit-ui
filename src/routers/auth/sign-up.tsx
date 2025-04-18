@@ -3,22 +3,22 @@ import { Text } from "@chakra-ui/react";
 import { ActionFunction, Link, redirect, useNavigation } from "react-router";
 import { Main, SignUpForm } from "./components";
 import { AuthService } from "@/services/auth.service";
+import { UserSignUp } from "@/schemas/user.schema";
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();
-  const data = await AuthService.signUp({
-    first_name: formData.get("first_name") as string,
-    last_name: formData.get("last_name") as string,
-    date_of_birth: formData.get("date_of_birth") as string,
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  });
+  const reqDetails = Object.fromEntries(formData) as UserSignUp;
+  const data = await AuthService.signUp(reqDetails);
 
-  if (data) {
-    return redirect("/auth/sign-in");
+  if (data === null) {
+    return null;
   }
 
-  return null;
+  if ("errorCode" in data) {
+    return data;
+  }
+
+  return redirect("/auth/sign-in");
 };
 
 export function SignUp() {

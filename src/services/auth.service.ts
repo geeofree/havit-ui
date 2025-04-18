@@ -1,37 +1,52 @@
+import { UserDetails, UserSignIn, UserSignUp } from "@/schemas/user.schema";
 import { HttpService } from "./http.service";
-
-type UserData = {
-  first_name: string;
-  last_name: string;
-  date_of_birth: string;
-  email: string;
-  password: string;
-};
+import { HTTPError } from "ky";
+import { ErrorDetails, ResDetails } from "@/types/response";
 
 export class AuthService {
-  static async signIn(email: string, password: string) {
+  static async signIn(
+    signInDetails: UserSignIn,
+  ): Promise<string | ErrorDetails | null> {
     try {
       const response = HttpService.post("api/auth/sign-in", {
-        json: { email, password },
+        json: signInDetails,
       });
-      const data = await response.json();
-      return data;
-    } catch (error: unknown) {
+      const json = await response.json<ResDetails<string>>();
+      return json.data;
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        return error.response.json();
+      }
+
+      if (error instanceof Error) {
+        console.log({ code: "UNKOWN_SIGN_IN_ERROR", details: error });
+      }
+
       return null;
     }
   }
 
-  static async signUp(userData: UserData) {
+  static async signUp(
+    signUpDetails: UserSignUp,
+  ): Promise<UserDetails | ErrorDetails | null> {
     try {
       const response = HttpService.post("api/auth/sign-up", {
         json: {
-          ...userData,
+          ...signUpDetails,
           username: null,
         },
       });
-      const data = await response.json();
+      const data = await response.json<UserDetails>();
       return data;
-    } catch (error: unknown) {
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        return error.response.json();
+      }
+
+      if (error instanceof Error) {
+        console.log({ code: "UNKOWN_SIGN_UP_ERROR", details: error });
+      }
+
       return null;
     }
   }
