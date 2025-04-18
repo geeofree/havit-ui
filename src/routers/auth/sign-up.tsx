@@ -1,12 +1,23 @@
 import { Fragment } from "react";
 import { Text } from "@chakra-ui/react";
-import { ActionFunction, Link, useNavigation } from "react-router";
+import { ActionFunction, Link, redirect, useNavigation } from "react-router";
 import { Main, SignUpForm } from "./components";
+import { AuthService } from "@/services/auth.service";
 
 export const action: ActionFunction = async ({ request }) => {
-  const formData = await request.formData();
-  console.log("geo-formData", formData);
-  return null;
+  try {
+    const formData = await request.formData();
+    await AuthService.signUp({
+      first_name: formData.get("first_name") as string,
+      last_name: formData.get("last_name") as string,
+      date_of_birth: formData.get("date_of_birth") as string,
+      email: formData.get("email") as string,
+      password: formData.get("password") as string,
+    });
+    return redirect("/auth/sign-in");
+  } catch (error: unknown) {
+    return null;
+  }
 };
 
 export function SignUp() {

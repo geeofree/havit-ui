@@ -8,7 +8,7 @@ type SignUpFormProps = {
 export function SignUpForm(props: SignUpFormProps) {
   const { isSubmitting } = props;
   return (
-    <Form action="/auth/sign-in" method="post">
+    <Form action="/auth/sign-up" method="post">
       <Flex gap="4" flexDirection="column" minWidth="sm">
         <Field.Root required>
           <Field.Label>
@@ -22,6 +22,13 @@ export function SignUpForm(props: SignUpFormProps) {
             Last Name <Field.RequiredIndicator />
           </Field.Label>
           <Input type="text" name="last_name" placeholder="Last Name" />
+        </Field.Root>
+
+        <Field.Root required>
+          <Field.Label>
+            Date of Birth <Field.RequiredIndicator />
+          </Field.Label>
+          <Input type="date" name="date_of_birth" placeholder="Date of Birth" />
         </Field.Root>
 
         <Field.Root required>
