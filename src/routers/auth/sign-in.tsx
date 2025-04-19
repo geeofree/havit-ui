@@ -1,9 +1,26 @@
 import { Fragment } from "react";
 import { Text } from "@chakra-ui/react";
-import { ActionFunction, Link, redirect, useNavigation } from "react-router";
+import {
+  ActionFunction,
+  Link,
+  LoaderFunction,
+  redirect,
+  replace,
+  useNavigation,
+} from "react-router";
 import { Main, SignInForm } from "./components";
 import { AuthService } from "@/services/auth.service";
 import { UserSignIn } from "@/schemas/user.schema";
+
+export const loader: LoaderFunction = async () => {
+  const data = await AuthService.isSignedIn();
+
+  if (data === true) {
+    return replace("/dashboard");
+  }
+
+  return data;
+};
 
 export const action: ActionFunction = async ({ request }) => {
   const formData = await request.formData();

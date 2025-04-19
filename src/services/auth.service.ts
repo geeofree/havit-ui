@@ -58,7 +58,25 @@ export class AuthService {
       return json.data.signedOut;
     } catch (error) {
       if (error instanceof HTTPError) {
-        return error.response.json();
+        return error.response.json<ErrorDetails>();
+      }
+
+      if (error instanceof Error) {
+        console.log({ code: "UNKOWN_SIGN_OUT_ERROR", details: error });
+      }
+
+      return null;
+    }
+  }
+
+  static async isSignedIn(): Promise<boolean | ErrorDetails | null> {
+    try {
+      const response = HttpService.get("api/auth/check");
+      const json = await response.json<ResDetails<{ isSignedIn: boolean }>>();
+      return json.data.isSignedIn;
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        return error.response.json<ErrorDetails>();
       }
 
       if (error instanceof Error) {
