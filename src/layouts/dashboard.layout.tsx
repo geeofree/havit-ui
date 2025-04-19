@@ -1,25 +1,23 @@
-import {
-  Button,
-  Flex,
-  Image,
-  Text,
-  Link as ChakraLink,
-} from "@chakra-ui/react";
-import { Form, Link, Outlet } from "react-router";
+import { Button, Flex, Image, Text } from "@chakra-ui/react";
+import { ChartArea, House, Target } from "lucide-react";
+import { Form, NavLink, Link, Outlet } from "react-router";
 import havitLogo from "@/assets/havit-logo.svg";
 
 const links = [
   {
     path: null,
     text: "Home",
+    icon: <House />,
   },
   {
-    path: "statistics",
+    path: "/statistics",
     text: "Statistics",
+    icon: <ChartArea />,
   },
   {
-    path: "habits",
+    path: "/habits",
     text: "Habits",
+    icon: <Target />,
   },
 ];
 
@@ -28,7 +26,7 @@ export function DashboardLayout() {
     <Flex
       minWidth="vw"
       minHeight="vh"
-      bgColor="gray.100"
+      bgColor="bg.subtle"
       flexDirection="column"
     >
       <Flex
@@ -37,9 +35,9 @@ export function DashboardLayout() {
         gap="4"
         paddingY="2"
         paddingX="4"
-        bgColor="white"
+        bgColor="bg"
         borderBottomWidth="thin"
-        borderBottomColor="gray.300"
+        borderBottomColor="border"
       >
         <Link to="/dashboard">
           <Flex gap="2" alignItems="center">
@@ -51,9 +49,22 @@ export function DashboardLayout() {
         </Link>
         <Flex as="nav" gap="4" alignItems="center">
           {links.map((link) => (
-            <ChakraLink asChild={true} key={link.text}>
-              <Link to={`/dashboard/${link.path ?? ""}`}>{link.text}</Link>
-            </ChakraLink>
+            <NavLink
+              to={`/dashboard${link.path ?? ""}`}
+              key={link.text}
+              end={link.path === null}
+            >
+              {({ isActive }) => (
+                <Button
+                  type="button"
+                  variant="ghost"
+                  colorPalette={isActive ? "blue" : "gray"}
+                  size="sm"
+                >
+                  {link.icon} {link.text}
+                </Button>
+              )}
+            </NavLink>
           ))}
         </Flex>
         <Form action="/auth/sign-out" method="POST">
