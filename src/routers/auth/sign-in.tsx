@@ -14,7 +14,7 @@ export const action: ActionFunction = async ({ request }) => {
     return null;
   }
 
-  if (typeof data === "string") {
+  if (data === true) {
     return redirect("/dashboard");
   }
 
