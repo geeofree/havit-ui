@@ -7,7 +7,7 @@ export function AuthLayout() {
     <Flex
       minWidth="vw"
       minHeight="vh"
-      bgColor="gray.100"
+      bgColor="bg.subtle"
       alignItems="center"
       justifyContent="center"
     >
@@ -15,6 +15,7 @@ export function AuthLayout() {
         flexDirection="column"
         justifyContent="center"
         alignItems="center"
+        flexGrow="1"
         gap="4"
       >
         <Flex gap="2" alignItems="center">

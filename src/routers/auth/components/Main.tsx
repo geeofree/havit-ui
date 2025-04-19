@@ -10,10 +10,14 @@ export function Main(props: MainProps) {
     <Box
       as="main"
       padding="4"
-      bgColor="white"
+      bgColor="bg"
       borderWidth="thin"
       borderRadius="md"
-      borderColor="gray.300"
+      borderColor="border"
+      width={{
+        base: "full",
+        sm: "auto",
+      }}
     >
       {props.children}
     </Box>

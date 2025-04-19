@@ -34,7 +34,7 @@ export function SignUp() {
       <Text>
         Already have an account?{" "}
         <Link to="/auth/sign-in">
-          <Text as="span" color="blue.500">
+          <Text as="span" color="fg.info">
             Sign-In!
           </Text>
         </Link>

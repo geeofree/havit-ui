@@ -12,7 +12,7 @@ export function SignInForm(props: SignInFormProps) {
   const errorDetails = useActionData<ErrorDetails>();
   return (
     <Form action="/auth/sign-in" method="post">
-      <Flex gap="4" flexDirection="column" minWidth="sm">
+      <Flex gap="4" flexDirection="column" width={{ base: "full", sm: "sm" }}>
         <Field.Root required>
           <Field.Label>
             E-Mail <Field.RequiredIndicator />
