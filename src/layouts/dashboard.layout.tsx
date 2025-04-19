@@ -17,7 +17,7 @@ import {
   Target,
   UserRound,
 } from "lucide-react";
-import { NavLink, Link, Outlet, useLoaderData } from "react-router";
+import { NavLink, Link, Outlet, useLoaderData, useSubmit } from "react-router";
 import havitLogo from "@/assets/havit-logo.svg";
 import { UserDetails } from "@/schemas/user.schema";
 
@@ -41,10 +41,11 @@ const links = [
 
 type DashboardMenuProps = {
   currentUser: UserDetails;
+  onExit: () => void;
 };
 
 function DashboardTopMenu(props: DashboardMenuProps) {
-  const { currentUser } = props;
+  const { currentUser, onExit } = props;
   return (
     <Flex
       justifyContent="space-between"
@@ -84,7 +85,13 @@ function DashboardTopMenu(props: DashboardMenuProps) {
           </NavLink>
         ))}
       </Flex>
-      <Menu.Root>
+      <Menu.Root
+        onSelect={(selection) => {
+          if (selection.value === "exit") {
+            return onExit();
+          }
+        }}
+      >
         <Menu.Trigger asChild>
           <AvatarGroup>
             <Avatar.Root>
@@ -170,6 +177,7 @@ function DashboardBotMenu() {
 
 export function DashboardLayout() {
   const currentUser = useLoaderData<UserDetails>();
+  const submit = useSubmit();
   return (
     <Flex
       minWidth="vw"
@@ -177,7 +185,12 @@ export function DashboardLayout() {
       bgColor="bg.subtle"
       flexDirection="column"
     >
-      <DashboardTopMenu currentUser={currentUser} />
+      <DashboardTopMenu
+        currentUser={currentUser}
+        onExit={() =>
+          submit(null, { method: "POST", action: "/auth/sign-out" })
+        }
+      />
       <Outlet />
       <DashboardBotMenu />
     </Flex>
