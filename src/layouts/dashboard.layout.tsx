@@ -152,6 +152,7 @@ function DashboardBotMenu() {
           end={link.path === null}
           flexGrow="1"
         >
+          {/* @ts-expect-error  */}
           {({ isActive }) => (
             <Button
               type="button"
