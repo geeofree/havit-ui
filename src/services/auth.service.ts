@@ -50,4 +50,22 @@ export class AuthService {
       return null;
     }
   }
+
+  static async signOut(): Promise<boolean | ErrorDetails | null> {
+    try {
+      const response = HttpService.post("api/auth/sign-out");
+      const json = await response.json<ResDetails<{ signedOut: boolean }>>();
+      return json.data.signedOut;
+    } catch (error) {
+      if (error instanceof HTTPError) {
+        return error.response.json();
+      }
+
+      if (error instanceof Error) {
+        console.log({ code: "UNKOWN_SIGN_OUT_ERROR", details: error });
+      }
+
+      return null;
+    }
+  }
 }

@@ -3,6 +3,7 @@ import { AuthLayout } from "@/layouts";
 import { loader as authIndexLoader } from ".";
 import { SignIn, action as signInAction } from "./sign-in";
 import { SignUp, action as signUpAction } from "./sign-up";
+import { action as signOutAction } from "./sign-out";
 
 export const router: RouteObject[] = [
   {
@@ -14,6 +15,7 @@ export const router: RouteObject[] = [
           { index: true, loader: authIndexLoader },
           { path: "sign-in", action: signInAction, Component: SignIn },
           { path: "sign-up", action: signUpAction, Component: SignUp },
+          { path: "sign-out", action: signOutAction, Component: SignUp },
         ],
       },
     ],

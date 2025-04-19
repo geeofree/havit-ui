@@ -5,7 +5,7 @@ import {
   Text,
   Link as ChakraLink,
 } from "@chakra-ui/react";
-import { Link, Outlet } from "react-router";
+import { Form, Link, Outlet } from "react-router";
 import havitLogo from "@/assets/havit-logo.svg";
 
 const links = [
@@ -56,9 +56,9 @@ export function DashboardLayout() {
             </ChakraLink>
           ))}
         </Flex>
-        <Link to="/dashboard/sign-out">
-          <Button>Sign-Out</Button>
-        </Link>
+        <Form action="/auth/sign-out" method="POST">
+          <Button type="submit">Sign-Out</Button>
+        </Form>
       </Flex>
       <Outlet />
     </Flex>
