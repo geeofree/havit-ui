@@ -8,10 +8,11 @@ import { loader as systemEssentialLoader } from "./system";
 export const router: RouteObject[] = [
   {
     path: "dashboard",
-    loader: systemEssentialLoader,
     children: [
       {
         Component: DashboardLayout,
+        loader: systemEssentialLoader,
+        id: "dashboard-system-essential",
         children: [
           { index: true, Component: DashboardHome },
           { path: "habits", Component: DashboardHabits },
